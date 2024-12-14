@@ -1,4 +1,3 @@
-import json
 import os
 
 from dotenv import load_dotenv
@@ -12,18 +11,10 @@ def get_short_link(link: str, access_key: str) -> str:
               'url': link,
               'private': 0
               }
-    try:
-        response = requests.get('https://api.vk.com/method/utils.getShortLink', 
-                                params=params)
-        response.raise_for_status()
-    except requests.exceptions.RequestException as error:
-        print('Ошибка:', error)
-
-    try:
-        short_link = json.loads(response.text)['response']['short_url']
-    except:
-        short_link = None
-        print('Ошибка: ', json.loads(response.text)['error'])
+    response = requests.get('https://api.vk.com/method/utils.getShortLink', 
+                            params=params)
+    response.raise_for_status()
+    short_link = response.json()['response']['short_url']
 
     return short_link
 
@@ -35,35 +26,35 @@ def count_clicks(link: str, access_key: str) -> int:
               'interval': 'forever',
               'extended': 0
               }
-    try:
-        response = requests.get('https://api.vk.com/method/utils.getLinkStats', 
-                                params=params)
-        response.raise_for_status()
-    except requests.exceptions.RequestException as error:
-        print('Ошибка:', error)
-
-    try:
-        cliks_count = json.loads(response.text)['response']['stats'][0]['views']
-    except:
-        cliks_count = None
-        print('Ошибка: ', json.loads(response.text)['error'])
+    response = requests.get('https://api.vk.com/method/utils.getLinkStats', 
+                            params=params)
+    response.raise_for_status()
+    cliks_count = response.json()['response']['stats'][0]['views']
 
     return cliks_count
 
 
-def is_short_link(link: str) ->bool:
-    return True if urlparse(link).netloc == 'vk.cc' else False    
+def is_short_link(link: str, access_key: str) ->bool:
+    params = {'access_token': access_key,
+              'v': '5.199',
+              'url': link
+              }
+    response = requests.get('https://api.vk.com/method/utils.checkLink', params=params)
+    return False if link in response.json()['response']['link'] else True
 
 
 def main():
     load_dotenv()
-    VK_SERVICE_KEY = os.getenv('VK_SERVICE_KEY')
+    vk_service_key = os.getenv('VK_SERVICE_KEY')
     
     link = input('Введите ссылку: ')
-    if is_short_link(link):
-        print('Количество кликов: ', count_clicks(link, VK_SERVICE_KEY))
-    else:
-        print('Сокращенная ссылка:', get_short_link(link, VK_SERVICE_KEY))
+    try:
+        if is_short_link(link, vk_service_key):
+            print('Количество кликов: ', count_clicks(link, vk_service_key))
+        else:
+            print('Сокращенная ссылка:', get_short_link(link, vk_service_key))
+    except (requests.exceptions.RequestException, KeyError, IndexError) as error:
+        print('Ошибка: ', error)
 
 
 if __name__ == '__main__':
