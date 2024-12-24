@@ -39,20 +39,26 @@ def is_short_link(link: str, access_key: str) ->bool:
               'v': '5.199',
               'url': link
               }
-    response = requests.get('https://api.vk.com/method/utils.checkLink', params=params)
-    return False if link in response.json()['response']['link'] else True
+    response = requests.get('https://api.vk.com/method/utils.checkLink', 
+                            params=params)
+    response.raise_for_status()
+    return link in response.json()['response']['link']
 
 
 def main():
     load_dotenv()
-    vk_service_key = os.getenv('VK_SERVICE_KEY')
+    try:
+        vk_service_key = os.environ['VK_SERVICE_KEY']
+    except KeyError:
+        # print('Ключ API VK_SERVICE_KEY не найден!')
+        raise RuntimeError('Ключ API VK_SERVICE_KEY не найден!')
     
     link = input('Введите ссылку: ')
     try:
         if is_short_link(link, vk_service_key):
-            print('Количество кликов: ', count_clicks(link, vk_service_key))
-        else:
             print('Сокращенная ссылка:', get_short_link(link, vk_service_key))
+        else:
+            print('Количество кликов: ', count_clicks(link, vk_service_key))
     except (requests.exceptions.RequestException, KeyError, IndexError) as error:
         print('Ошибка: ', error)
 
