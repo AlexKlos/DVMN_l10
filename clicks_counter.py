@@ -50,7 +50,6 @@ def main():
     try:
         vk_service_key = os.environ['VK_SERVICE_KEY']
     except KeyError:
-        # print('Ключ API VK_SERVICE_KEY не найден!')
         raise RuntimeError('Ключ API VK_SERVICE_KEY не найден!')
     
     link = input('Введите ссылку: ')
