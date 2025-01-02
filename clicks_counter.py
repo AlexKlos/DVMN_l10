@@ -1,3 +1,4 @@
+import argparse
 import os
 
 from dotenv import load_dotenv
@@ -52,7 +53,12 @@ def main():
     except KeyError:
         raise RuntimeError('Ключ API VK_SERVICE_KEY не найден!')
     
-    link = input('Введите ссылку: ')
+    parser = argparse.ArgumentParser()
+    parser.add_argument('link')
+    args = parser.parse_args()
+    link = args.link
+    # print(link)
+    # link = input('Введите ссылку: ')
     try:
         if is_short_link(link, vk_service_key):
             print('Сокращенная ссылка:', get_short_link(link, vk_service_key))
