@@ -19,22 +19,20 @@
     VK_SERVICE_KEY = 'сервисный ключ доступа'
     ```
 
-3. Запустите скрипт:
+3. Запустите скрипт, передав ссылку, как параметр:
     ```
-    python clicks_counter.py
+    python clicks_counter.py https://какая-то.ссылка.com
     ```
 
-4. Введите ссылку:
+4. Скрипт вернёт ответ:
     - Если ввсети обычную ссылку - для неё будет получена короткая ссылка:
         ```
-        C:\Users> python clicks_counter.py
-        Введите ссылку: dvmn.org/modules
-        Сокращенная ссылка: https://vk.cc/cwSc1H
+        C:\Users> python clicks_counter.py mail.ru
+        Сокращенная ссылка: https://vk.cc/99iDXr
         ```
 
     - Если ввести короткую ссылку - будет получено количество переходов (кликов) по ссылке:
         ```
-        C:\Users> python clicks_counter.py
-        Введите ссылку: https://vk.cc/cwSc1H
-        Количество кликов:  12
+        C:\Users> python clicks_counter.py https://vk.cc/99iDXr
+        Количество кликов:  265
         ```

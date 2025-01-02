@@ -57,8 +57,7 @@ def main():
     parser.add_argument('link')
     args = parser.parse_args()
     link = args.link
-    # print(link)
-    # link = input('Введите ссылку: ')
+    
     try:
         if is_short_link(link, vk_service_key):
             print('Сокращенная ссылка:', get_short_link(link, vk_service_key))
