@@ -16,7 +16,7 @@ pip install -r requirements.txt
 ### Переменные окружения
 Создайте в папке проекта файл `.env` и сохраните в нём сервисный ключ доступа:
 ```
-VK_SERVICE_KEY = 'сервисный ключ доступа'
+VK_SERVICE_KEY='сервисный_ключ_доступа'
 ```
 #### Получите сервисный ключ доступа на платформе [vk.cc]('https://dev.vk.com/ru/api/access-token/getting-started')
 
