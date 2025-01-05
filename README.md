@@ -18,7 +18,7 @@ pip install -r requirements.txt
 ```
 VK_SERVICE_KEY='сервисный_ключ_доступа'
 ```
-#### Получите сервисный ключ доступа на платформе [vk.cc]('https://dev.vk.com/ru/api/access-token/getting-started')
+#### Получите сервисный ключ доступа на платформе [vk.cc](https://dev.vk.com/ru/api/access-token/getting-started)
 
 ## Запуск:
 Запустите скрипт:
